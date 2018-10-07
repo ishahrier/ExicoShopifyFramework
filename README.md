@@ -1,5 +1,6 @@
 [![Build Status](https://ishahrier.visualstudio.com/eXicoShopifyFramework/_apis/build/status/ExicoShopifyFramework-%20Release%20(master)%20Branch)](https://ishahrier.visualstudio.com/eXicoShopifyFramework/_build/latest?definitionId=7) 
 [![NuGet](https://img.shields.io/nuget/v/Exico.Shopify.Web.Core.svg)](https://badge.fury.io/nu/Exico.Shopify.Web.Core)
+
 # Exico Shopify Framework
 
 **Exico Shopify Framework** is a *donet* framework for building **Shopify** store apps (https://apps.shopify.com). It has following features built into it  that will escalate your  **Shopify** app development:
@@ -17,7 +18,7 @@
 
 
 
-**Exico Shopify Framework** uses the latest version of the **AspNet Core** and **EF core**. It is built using the best practices (atleast I think :-)) and has a decent unit test coverage. The project is well documented, please find the **doxygen** generated documentation here (www.comingsoon.com).
+**Exico Shopify Framework** uses the latest version of the **AspNet Core** and **EF core**. It is built using the best practices (atleast I think :-)) and has a decent unit test coverage. The project is well documented, please find the **doxygen** generated documentation.Also do not forget to visit the project wiki pages (https://github.com/ishahrier/ExicoShopifyFramework/wiki/Quick-Start)
 
 This project was a personal project but I am making it open source now. I hope people can get benefitted using this project and contribute to this project and make it better day by day.
 
