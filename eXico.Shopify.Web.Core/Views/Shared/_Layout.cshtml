@@ -1,0 +1,40 @@
+﻿@inject IDbSettingsReader settings
+@inject Microsoft.AspNetCore.Mvc.ViewEngines.ICompositeViewEngine viewEngine
+<!DOCTYPE html>
+<html>
+<head>
+    <!--If you have any additoinal meta field that needs to be added-->
+    @await Html.PartialAsync(this.GetViews().Meta.DefaultMetaFields)
+    <!--The default implementation is "Title - App Name"-->
+    @await Html.PartialAsync(this.GetViews().Meta.DefaultPageTitle)
+
+    <!--Renders the default header elements-->
+    @await Html.PartialAsync(this.GetViews().Meta.DefaultHeaderIncludes)
+ 
+    <!--If you need to include some custom/additional header elements (scripts/css) for all pages-->
+    @await Html.PartialAsyncIfExists(this, viewEngine, this.GetViews().Meta.CustomHeaderIncludes, null)
+    <!--Quick css rendering-->
+    @RenderSection(ViewNames.STYLE_SECTION, required: false)
+
+</head>
+<body>
+    @await Html.PartialAsync(this.GetViews().NavBar.NavBar)
+    <div class="container body-content">
+        <div class="row">
+            @await Html.PartialAsync(this.GetViews().WebMsg.DefaultWebMsgLoader)
+        </div>
+        <div class="row">
+            @RenderBody()
+        </div>
+        <div class="row">
+            @await Html.PartialAsync(this.GetViews().Footer.DefaultFooter)
+        </div>
+    </div>
+    <!--This will load default elements that are to be added on every page at the end of the body for all pages.-->
+    @await Html.PartialAsync(this.GetViews().Meta.DefaultAfterBodyIncludes)
+    <!--If you want to include custom sctip/css or anything else at the bottom of the body for all pages that render.-->
+    @await Html.PartialAsyncIfExists(this, viewEngine, this.GetViews().Meta.CustomAfterBodyIncludes, null)
+    <!--Quick script include-->
+    @RenderSection(ViewNames.SCRIPT_SECTION, required: false)
+</body>
+</html>

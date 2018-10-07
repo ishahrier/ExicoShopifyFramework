@@ -1,0 +1,95 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <environment include="Development">
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+            <link rel="stylesheet" href="~/css/site.css" />
+        </environment>
+        <environment exclude="Development">
+            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        </environment>
+        <title>Error Occurred</title>
+    </head>
+    <body marginwidth="0" marginheight="0">
+        <div class="container">
+            <div class="row">
+                <h3 style="color:#7d7777">Error Occurred During Request Processing</h3>
+                <hr />
+            </div>
+            <div class="row">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">General Information</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="label label-default" style="padding:8px;font-size:12px">
+                            Request Id:
+                            @if (Model.RequestIdAvailable)
+                            {
+                                <text>@Model.RequestId</text>
+                            }
+                            else
+                            {
+                                <tex>Not Available</tex>
+                            }
+                        </div>
+                        <div class="alert alert-default">
+                            <p>
+                                @Model.GeneralMessage
+                            </p>
+                            <hr/>
+                            <p>
+                               
+                                    @Model.HelpMessage
+
+                                    @if (!String.IsNullOrEmpty(Model.SupportEmail))
+                                    {
+                                        <text>(<a href="mailto:@Model.SupportEmail">@Model.SupportEmail</a>)</text>
+                                    }
+                               
+                            </p>
+                            <p>Click <a href="@Model.HelpLinkHref">here</a> to go back to landing page.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Exception Details</h3>
+                    </div>
+                    <div class="panel-body">
+                        @if (Model.ShowExceptionDetails==false)
+                        {
+                            <pre>
+                            @Html.Raw(Model.Exception?.ToString())
+                            </pre>
+                        }
+                        else
+                        {
+                            <span>Available for admin only.</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+}

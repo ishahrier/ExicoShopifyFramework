@@ -1,0 +1,20 @@
+﻿@using Exico.Shopify.Web.Core.Plugins.WebMsg
+@using Newtonsoft.Json;
+@inject IWebMsgConfig config
+@{
+    var tempJsonData = TempData[config.Key];
+    WebMsgModel temp = null;
+    try
+    {
+        temp = tempJsonData == null ? null : JsonConvert.DeserializeObject<WebMsgModel>(tempJsonData.ToString());
+    }catch(Exception ex)
+    {
+        temp = null;
+
+    }
+    WebMsgModel web = ViewData[config.Key] as WebMsgModel;
+}
+
+@await Html.PartialAsync(this.GetViews().WebMsg.DefaultWebMsgrenderer, temp)
+@await Html.PartialAsync(this.GetViews().WebMsg.DefaultWebMsgrenderer, web)
+

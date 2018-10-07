@@ -1,0 +1,33 @@
+﻿@model Exico.Shopify.Data.Domain.AppModels.PlanAppModel
+@inject IDbSettingsReader settings
+
+<div class="col-md-3  ">
+    <div class="pricingTable">
+        <div class="pricingTable-header">
+            <span class="heading">
+                <h3>@Model.Name</h3>
+                <span>@Model.Description</span>
+                @if (Model.IsPopular)
+                {
+                    <span class="sale-wrapper"><span class="sale">offer</span></span>
+                }
+            </span>
+            <span class="price-value"><span>@Model.Price.ToString("C")</span><span class="mo">/month</span></span>
+        </div>
+        <div class="pricingContent">
+            <ul>
+                <li>@Model.TrialDays day(s) trial period.</li>
+                @foreach (var def in Model.Definitions)
+                {
+                    <li>@def.Key: <b>@def.Value.OptionValue</b></li>
+                }
+            </ul>
+        </div>
+        <div class="pricingTable-sign-up">
+            <a href="@ShopifyUrlHelper.GetSelectedPlanHandlerUrl(settings,Model.Id)" class="btn btn-block btn-default">Subscribe</a>
+        </div>
+    </div>
+</div>
+
+
+

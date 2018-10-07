@@ -1,0 +1,3 @@
+﻿@inject Microsoft.AspNetCore.Mvc.ViewEngines.ICompositeViewEngine viewEngine
+@Html.Partial(this.GetViews().Dashboard.IndexDefaultContent)
+@await Html.PartialAsyncIfExists(this, viewEngine, this.GetViews().Dashboard.IndexOptionalContent, null)

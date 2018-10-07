@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ExicoShopifyApp</id>
+    <version>1.0.0</version>
+    <description>
+      Create a shopify app using ExicoShopifyFramework
+    </description>
+    <title>ExicoShopifyApp Template</title>
+    <authors>Ishtiaque Shahrier</authors>
+    <copyright>Exico Software Solutions</copyright>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+</package>

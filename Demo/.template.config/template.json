@@ -1,0 +1,12 @@
+﻿{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Md Ishtiaque Shahrier",
+  "classifications": [ "web" ],
+  "identity": "Exico.Shopify.Web.Core",
+  "name": "Exico Shopify App Development Framework",
+  "shortName": "ExicoShopifyApp",
+  "tags": {
+    "language": "C#"
+  },
+  "sourceName": "Demo"
+}

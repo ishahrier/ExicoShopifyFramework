@@ -1,0 +1,7 @@
+﻿<div class="container">
+    @await Html.PartialAsync(this.GetViews().NavBar.DefaultNavBarHeader)
+    <div class="navbar-collapse collapse">
+        @await Html.PartialAsync(this.GetViews().NavBar.DefaultNavBarLinks)
+        @await Html.PartialAsync(this.GetViews().Account.LoginPartial)
+    </div>
+</div>

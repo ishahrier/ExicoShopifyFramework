@@ -1,0 +1,147 @@
+﻿@model MyProfileViewModel
+<div class="col-lg-12 col-sm-12">
+    <h1>My Profile  <span class="visible-xs-inline"> @await Html.PartialAsync(this.GetViews().Logo.LogoLoader, "32px")</span></h1>
+
+</div>
+<div class="col-lg-12 col-sm-12">
+    <div class="col-lg-6 col-sm-6" style="padding-left:0px">
+        <table class="table table-condensed">
+
+            <tr>
+                <td>Store</td>
+                <td><a href="https://@(Model.Me.MyShopifyDomain)" target="_blank"> @Model.Me.MyShopifyDomain</a></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>@Model.Me.Email</td>
+            </tr>
+            <tr>
+                <td>Plan</td>
+                <td>
+                    @Model.MyPlan.Name 
+                    @if (Model.MyPlan.IsTest || Model.Me.IsAdmin)
+                    {
+                        <span class="label label-danger">Test mode</span>
+                        @if (Model.MyPlan.IsDev)
+                        {
+                            <span class="label label-warning">Dev Plan</span>
+                        }
+                        <span class="label label-info">Id @Model.MyPlan.Id</span>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>Prcing</td>
+                <td> <b>@Model.MyPlan.Price.ToString("C")</b>  USD monthly</td>
+            </tr>
+
+            <tr>
+                <td>
+                    Trial period
+                </td>
+                <td>
+                    @Model.MyPlan.TrialDays Day(s)
+                </td>
+            </tr>
+            @if (Model.ChargeData != null)
+            {
+                @if (Model.ChargeData.TrialEndsOn.HasValue)
+                {
+                    if (Model.ChargeData.TrialEndsOn.Value.CompareTo(DateTime.Now) > 0)
+                    {
+                        <tr>
+                            <td> Trial will end on</td>
+                            <td style="color:green;font-weight:bolder">
+                                @if (Model.ChargeData.TrialEndsOn.HasValue)
+                                {
+                                    @Model.ChargeData.TrialEndsOn.Value.DateTime.ToString("F");
+                                }
+                                else
+                                {
+                                    @("n/a")
+                                }
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                Trial ended on
+                            </td>
+                            <td style="color:maroon;font-weight:bolder">
+                                @if (Model.ChargeData.TrialEndsOn.HasValue)
+                                {
+                                    @Model.ChargeData.TrialEndsOn.Value.DateTime.ToString("F");
+                                }
+                                else
+                                {
+                                    @("n/a")
+                                }
+                            </td>
+                        </tr>
+
+                    }
+                }
+                <tr>
+                    <td>Charge created on</td>
+                    <td>
+                        @if (Model.ChargeData.CreatedAt.HasValue)
+                        {
+                            @Model.ChargeData.CreatedAt.Value.DateTime.ToString("F");
+                        }
+                        else
+                        {
+                            @("n/a")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Charge updated on</td>
+                    <td>
+                        @if (Model.ChargeData.UpdatedAt.HasValue)
+                        {
+                            @Model.ChargeData.UpdatedAt.Value.DateTime.ToString("F");
+                        }
+                        else
+                        {
+                            @("n/a")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Next blling on</td>
+                    <td>
+                        @if (Model.ChargeData.BillingOn.HasValue)
+                        {
+                            @Model.ChargeData.BillingOn.Value.DateTime.ToString("F");
+                        }
+                        else
+                        {
+                            @("n/a")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Charge status</td>
+                    <td>@Model.ChargeData.Status</td>
+                </tr>
+
+            }
+
+            <tr>
+                <td colspan="2">
+                    <span class="label label-success ">Your IP address is @this.ViewContext.HttpContext.Connection.RemoteIpAddress </span>
+                    @if (Model.Me.IsAdmin)
+                    {
+                        <span style="margin-left:10px" class="label label-primary ">You are logged in as admin</span>
+                    }
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    <div class="col-lg-6 col-sm-6 hidden-xs" style="padding-top:70px;padding-left:50px">
+        @await Html.PartialAsync(this.GetViews().Logo.LogoLoader, "128px")
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿@model LoginViewModel
+<div class="container">
+    <div class="row">
+        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">Log In</div>
+                </div>
+                <div style="padding-top:30px" class="panel-body">
+                    <div class="visible-xs text-center">                        
+                        @await Html.PartialAsync(this.GetViews().Logo.LogoLoader,"64px")
+                    </div>
+                    <div class="col-sm-3 hidden-xs  text-center" style="margin-top:35px">
+                        @await Html.PartialAsync(this.GetViews().Logo.LogoLoader, "96px")
+                    </div>
+                    <div class="col-xs-12 col-sm-9">
+                        <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="UserName">Store (myshopify domain)</label>
+                                <input asp-for="UserName" class="form-control" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Password"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-default">Log in</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

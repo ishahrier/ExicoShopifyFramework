@@ -1,0 +1,97 @@
+﻿@using Exico.Shopify.Web.Core.Plugins.WebMsg
+@model Exico.Shopify.Web.Core.Plugins.WebMsg.WebMsgModel
+@inject IWebMsgConfig config
+@if (Model != null)
+{
+    
+    string webCssClass = "";
+    string title = "";
+    if (Model.MsgType == WEB_MSG_TYPE.DANGER)
+    {
+        webCssClass = "alert alert-danger";
+        title = "Error";
+    }
+    else if (Model.MsgType == WEB_MSG_TYPE.INFORMATION)
+    {
+        webCssClass = "alert alert-info";
+        title = "Information";
+    }
+    else if (Model.MsgType == WEB_MSG_TYPE.WARNING)
+    {
+        webCssClass = "alert alert-warning";
+        title = "Warning";
+    }
+    else if (Model.MsgType == WEB_MSG_TYPE.SUCCESS)
+    {
+        webCssClass = "alert alert-success";
+        title = "Success";
+    }
+
+    @if (Model.IsPopUp == false)
+    {
+        <div class="@webCssClass alert-dismissable @Model.UniqueId" @if (Model.IsClosable) { <text> onclick="$(this).hide()" style="cursor:pointer" </text> }>
+            <span class="glyphicon glyphicon-certificate"></span>
+            @if (Model.IsClosable)
+            {
+                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                    ×
+                </button>
+            }
+            @Html.Raw(Model.MsgData)
+        </div>
+        @if (Model.IsAutoHide)
+        {
+            <script type="text/javascript">
+                document.addEventListener("DOMContentLoaded", function (event) {
+                    $(".@Model.UniqueId").fadeTo(@config.AutoHideInterval, 500).slideUp(200, function () {
+                    });
+
+                });
+            </script>
+        }
+    }
+    @if (Model.IsPopUp)
+    {
+
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function (event) {
+                $('#@Model.UniqueId').modal('show');
+                @if (Model.IsAutoHide)
+                 {
+                    <text>
+                    setTimeout(function () {
+                        $("#@Model.UniqueId").modal('hide');
+                    }, @config.AutoHideInterval);
+                     </text>
+                }
+            });
+        </script>
+
+
+
+        <div class="modal fade " id="@Model.UniqueId" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header alert @webCssClass">
+                        @if (Model.IsClosable)
+                        {
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        }
+                        <h4 class="modal-title" id="myModalLabel">@title</h4>
+                    </div>
+                    <div class="modal-body">
+                        @Html.Raw(Model.MsgData)
+                    </div>
+                    @if (Model.IsClosable)
+                    {
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}
+
