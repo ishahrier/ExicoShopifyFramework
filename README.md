@@ -18,15 +18,14 @@
 
 
 
-**Exico Shopify Framework** uses the latest version of the **AspNet Core** and **EF core**. It is built using the best practices (atleast I think :-)) and has a decent unit test coverage. The project is well documented, please find the **doxygen** generated documentation.Also do not forget to visit the project wiki pages (https://github.com/ishahrier/ExicoShopifyFramework/wiki/Quick-Start)
+**Exico Shopify Framework** uses the latest version of the **AspNet Core** and **EF core**. It is built using the best practices (atleast I think :-)) and has a decent unit test coverage. The project is well documented, please find the **doxygen** generated documentation.Also do not forget to visit the project wiki pages. Start with this one https://github.com/ishahrier/ExicoShopifyFramework/wiki/2.-Quick-Introduction
 
 This project was a personal project but I am making it open source now. I hope people can get benefitted using this project and contribute to this project and make it better day by day.
 
 
-
-**ANNOUNCEMENT** 
+**ANNOUNCEMENTs** 
 
 1. I will be making a series of tutorials on the structure/source code of this framework so that any one can easily get into the source code and start contributing.
-2. I am currently writing wiki pages for this project. But it is going slowly as I do not get enough time for that. But I promise to write a detailed wiki guide for this frameowrk so that you guys can quickly get a hold of the framework and how to use it.
+2. I am currently writing wiki pages for this project. But it is going slowl as I do not get enough time for it. But I promise to write a detailed wiki guide so that you guys can quickly get a hold of the framework and how to use it.
 
 ## IF YOU ARE CONTRIBUTING PLEASE PULL REQUEST TO THE DEVELOPMENT BRANCH ONLY!
