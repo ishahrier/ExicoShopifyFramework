@@ -26,7 +26,7 @@ This project was a personal project but I am making it open source now. I hope p
 
 **ANNOUNCEMENT** 
 
-1. I will be making a series of tutorial on the structure of thios framework so that any one can easily get into the source code and start contributing.
-2. I am currently writing wiki pages for this project. But it is going slowly as I do not get enough time for that. But I promise to write a detailed wiki guide for this frameowrk so that you guys know how to use it quickly and make it better by contributing code as well.
+1. I will be making a series of tutorials on the structure/source code of this framework so that any one can easily get into the source code and start contributing.
+2. I am currently writing wiki pages for this project. But it is going slowly as I do not get enough time for that. But I promise to write a detailed wiki guide for this frameowrk so that you guys can quickly get a hold of the framework and how to use it.
 
 ## IF YOU ARE CONTRIBUTING PLEASE PULL REQUEST TO THE DEVELOPMENT BRANCH ONLY!
