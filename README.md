@@ -1,5 +1,7 @@
 [![Build Status](https://ishahrier.visualstudio.com/eXicoShopifyFramework/_apis/build/status/ExicoShopifyFramework-%20Release%20(master)%20Branch)](https://ishahrier.visualstudio.com/eXicoShopifyFramework/_build/latest?definitionId=7) 
 [![NuGet](https://img.shields.io/nuget/v/Exico.Shopify.Web.Core.svg)](https://badge.fury.io/nu/Exico.Shopify.Web.Core)
+![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
+
 
 # Exico Shopify Framework
 
