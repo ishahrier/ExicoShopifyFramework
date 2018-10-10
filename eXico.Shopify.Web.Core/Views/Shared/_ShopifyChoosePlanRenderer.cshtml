@@ -1,7 +1,7 @@
 ﻿@model Exico.Shopify.Data.Domain.AppModels.PlanAppModel
 @inject IDbSettingsReader settings
 
-<div class="col-md-3  ">
+<div class="col-md-3  " @this.PrintViewNameAttr()>
     <div class="pricingTable">
         <div class="pricingTable-header">
             <span class="heading">

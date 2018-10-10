@@ -25,7 +25,7 @@
         <title>Error Occurred</title>
     </head>
     <body marginwidth="0" marginheight="0">
-        <div class="container">
+        <div class="container" @await Html.PartialAsync(this.GetViews().Shopify.ChoosePlanRenderingCss)>
             <div class="row">
                 <h3 style="color:#7d7777">Error Occurred During Request Processing</h3>
                 <hr />

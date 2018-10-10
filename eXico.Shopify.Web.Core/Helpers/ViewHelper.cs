@@ -49,5 +49,13 @@ namespace Exico.Shopify.Web.Core.Helpers
                 return HtmlString.Empty;
             }
         }
+
+        public static IHtmlContent PrintViewNameAttr(this IRazorPage rpage)
+        {
+            if (rpage.ViewContext.ViewBag.PrintViewFileName == "1")
+                return new HtmlString($"x-viewname='{rpage.ViewContext.ExecutingFilePath}'");
+            else
+                return HtmlString.Empty;
+        }
     }
 }

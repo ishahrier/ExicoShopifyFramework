@@ -1,124 +1,126 @@
-﻿<style type="text/css">
-    .pricingTable {
-        text-align: center;
-        background: #fff;
-        border: 1px solid #eaeaea;
-    }
-
-        .pricingTable:hover > .pricingTable-header > .heading > h3 {
-            color: #e67e22;
-            transition: all 0.4s ease 0s;
+﻿<div @this.PrintViewNameAttr() >
+    <style type="text/css">
+        .pricingTable {
+            text-align: center;
+            background: #fff;
+            border: 1px solid #eaeaea;
         }
 
-        .pricingTable > .pricingTable-header {
-            color: #333333;
-        }
-
-    .pricingTable-header > .heading {
-        display: block;
-        padding-top: 10px;
-        position: relative;
-    }
-
-    .heading > h3 {
-        text-transform: uppercase;
-        font-weight: 700;
-        margin-bottom: 15px;
-    }
-
-    .heading > .sale-wrapper {
-        height: 88px;
-        width: 85px;
-        color: #fff;
-        overflow: hidden;
-        position: absolute;
-        right: -4px;
-        top: -3px;
-    }
-
-    .sale-wrapper > .sale {
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-        font-size: 12px;
-        padding: 10px 0;
-        position: absolute;
-        left: 0px;
-        top: 10px;
-        text-align: center;
-        text-transform: uppercase;
-        transform: rotate(45deg);
-        width: 120px;
-        background: #e67e22;
-    }
-
-        .sale-wrapper > .sale:after {
-            content: "";
-            position: absolute;
-            bottom: -3px;
-            right: 6px;
-            border-left: 3px solid rgba(0, 0, 0, 0);
-            border-right: 3px solid rgba(0, 0, 0, 0);
-            border-top: 3px solid #6e8900;
-        }
-
-    .pricingTable-header > .price-value {
-        display: block;
-        color: #e67e22;
-        font-size: 36px;
-        font-weight: 700;
-    }
-
-    .price-value > .mo {
-        display: block;
-        color: #333333;
-        font-size: 14px;
-        font-weight: normal;
-    }
-
-    .pricingTable > .pricingContent {
-        margin-top: 20px;
-    }
-
-        .pricingTable > .pricingContent > ul {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 0;
-        }
-
-            .pricingTable > .pricingContent > ul > li {
-                padding: 13px 35px;
-                border-top: 1px solid #dcdcdc;
-                text-transform: uppercase;
+            .pricingTable:hover > .pricingTable-header > .heading > h3 {
+                color: #e67e22;
+                transition: all 0.4s ease 0s;
             }
 
-                .pricingTable > .pricingContent > ul > li:nth-child(odd) {
-                    background: #F3F3F3;
-                    color: #9c9c9c;
-                    text-transform: capitalize;
+            .pricingTable > .pricingTable-header {
+                color: #333333;
+            }
+
+        .pricingTable-header > .heading {
+            display: block;
+            padding-top: 10px;
+            position: relative;
+        }
+
+        .heading > h3 {
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .heading > .sale-wrapper {
+            height: 88px;
+            width: 85px;
+            color: #fff;
+            overflow: hidden;
+            position: absolute;
+            right: -4px;
+            top: -3px;
+        }
+
+        .sale-wrapper > .sale {
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+            font-size: 12px;
+            padding: 10px 0;
+            position: absolute;
+            left: 0px;
+            top: 10px;
+            text-align: center;
+            text-transform: uppercase;
+            transform: rotate(45deg);
+            width: 120px;
+            background: #e67e22;
+        }
+
+            .sale-wrapper > .sale:after {
+                content: "";
+                position: absolute;
+                bottom: -3px;
+                right: 6px;
+                border-left: 3px solid rgba(0, 0, 0, 0);
+                border-right: 3px solid rgba(0, 0, 0, 0);
+                border-top: 3px solid #6e8900;
+            }
+
+        .pricingTable-header > .price-value {
+            display: block;
+            color: #e67e22;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .price-value > .mo {
+            display: block;
+            color: #333333;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .pricingTable > .pricingContent {
+            margin-top: 20px;
+        }
+
+            .pricingTable > .pricingContent > ul {
+                list-style: none;
+                padding: 0;
+                margin-bottom: 0;
+            }
+
+                .pricingTable > .pricingContent > ul > li {
+                    padding: 13px 35px;
+                    border-top: 1px solid #dcdcdc;
+                    text-transform: uppercase;
                 }
 
-    .pricingTable-sign-up {
-        padding: 30px 15px;
-        border-top: 1px solid #dcdcdc;
-        background: #EBEBEB;
-    }
+                    .pricingTable > .pricingContent > ul > li:nth-child(odd) {
+                        background: #F3F3F3;
+                        color: #9c9c9c;
+                        text-transform: capitalize;
+                    }
 
-        .pricingTable-sign-up .btn-default {
-            padding: 15px;
-            background: #e67e22;
-            color: #fff;
-            text-transform: capitalize;
-            border: 0px none;
-            transition: all 0.4s ease 0s;
+        .pricingTable-sign-up {
+            padding: 30px 15px;
+            border-top: 1px solid #dcdcdc;
+            background: #EBEBEB;
         }
 
-            .pricingTable-sign-up .btn-default:hover {
-                background: #2F2F2F;
+            .pricingTable-sign-up .btn-default {
+                padding: 15px;
+                background: #e67e22;
                 color: #fff;
+                text-transform: capitalize;
+                border: 0px none;
+                transition: all 0.4s ease 0s;
             }
 
-    @@media screen and (max-width: 990px) {
-        .pricingTable {
-            margin-bottom: 20px;
+                .pricingTable-sign-up .btn-default:hover {
+                    background: #2F2F2F;
+                    color: #fff;
+                }
+
+        @@media screen and (max-width: 990px) {
+            .pricingTable {
+                margin-bottom: 20px;
+            }
         }
-    }
-</style>
+    </style>
+</div>

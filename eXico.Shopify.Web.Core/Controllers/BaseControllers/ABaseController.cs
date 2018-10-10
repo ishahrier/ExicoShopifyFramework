@@ -128,6 +128,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             ViewBag.UsesEmbededSdk = UsesEmbebedSdk;
+            ViewBag.PrintViewFileName = Config["PrintViewFileName"];
             ViewBag.AppName = AppName;
             ViewBag.PageTitle = GetPageTitle();
             ViewBag.Controllers = Controllers;

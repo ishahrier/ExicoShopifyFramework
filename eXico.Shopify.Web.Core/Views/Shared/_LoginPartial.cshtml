@@ -4,11 +4,11 @@
 @inject UserManager<AspNetUser> UserManager
 @inject IDbSettingsReader Settings
 
-
+ 
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="" asp-controller="@this.GetControllers().AccountController" asp-action="Logoff" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" @this.PrintViewNameAttr()>
             <li>
                 <a asp-controller="@Settings.GetAppMyProfileControllerName()" asp-action="@Exico.Shopify.Web.Core.Controllers.BaseControllers.Interfaces.PROFILE_ACTIONS.Index" title="My Profile">My Profile</a>
             </li>
@@ -20,7 +20,8 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">        
+    <ul class="nav navbar-nav navbar-right" @this.PrintViewNameAttr()>        
         <li><a asp-area="" asp-controller="@this.GetControllers().AccountController" asp-action="Login">Log in</a></li>
     </ul>
 }
+ 

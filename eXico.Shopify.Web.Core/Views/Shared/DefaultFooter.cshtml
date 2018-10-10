@@ -1,1 +1,3 @@
-﻿@await Html.PartialAsync(this.GetViews().Footer.DefaultFooterContent)
+﻿<div @this.PrintViewNameAttr()>
+    @await Html.PartialAsync(this.GetViews().Footer.DefaultFooterContent)
+</div>

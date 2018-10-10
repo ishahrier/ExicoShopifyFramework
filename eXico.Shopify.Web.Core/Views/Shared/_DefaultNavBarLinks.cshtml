@@ -1,5 +1,5 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.ViewEngines.ICompositeViewEngine viewEngine
-<ul class="nav navbar-nav">
+<ul class="nav navbar-nav" @this.PrintViewNameAttr()>
     <li><a asp-area="" asp-controller="@this.GetControllers().DashboardController" asp-action="@DASHBOARD_ACTIONS.Index.ToString()">Dashboard</a></li>
 
     @*<li class="dropdown">

@@ -1,4 +1,4 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.ViewEngines.ICompositeViewEngine viewEngine
-<div class="col-xs-12">
+<div class="col-xs-12" @this.PrintViewNameAttr()>
     @await Html.PartialAsync(this.GetViews().Dashboard.SupportContactusForm)
 </div>
