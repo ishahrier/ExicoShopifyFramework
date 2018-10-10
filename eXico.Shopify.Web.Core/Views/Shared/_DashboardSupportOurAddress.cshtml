@@ -1,21 +1,23 @@
 ﻿@inject Exico.Shopify.Web.Core.Modules.IDbSettingsReader Settings
-<form>
-    <legend><span class="glyphicon glyphicon-globe"></span> Our office</legend>
-    <address>
-        <strong>Exico Software Solutions</strong><br>
-        St Mary's Road<br>
-        Winnipeg, Manitoba, Canada, R2N0E4<br>
-        <abbr title="Phone">
-            Phone:
-        </abbr>
-        (not available)
-    </address>
-    <address>
-        <strong>Email:</strong><br>
-        <a href="mailto:@Settings.GetAppSupportEmailAddress()">@Settings.GetAppSupportEmailAddress()</a>
-    </address>
-    <address>
-        <strong>Website:</strong><br>
-        <a href="http://www.exico.ca" target="_blank">www.exico.ca</a>
-    </address>
-</form>
+<div @this.PrintViewNameAttr()>
+    <form>
+        <legend><span class="glyphicon glyphicon-globe"></span> Our office</legend>
+        <address>
+            <strong>Exico Software Solutions</strong><br>
+            St Mary's Road<br>
+            Winnipeg, Manitoba, Canada, R2N0E4<br>
+            <abbr title="Phone">
+                Phone:
+            </abbr>
+            (not available)
+        </address>
+        <address>
+            <strong>Email:</strong><br>
+            <a href="mailto:@Settings.GetAppSupportEmailAddress()">@Settings.GetAppSupportEmailAddress()</a>
+        </address>
+        <address>
+            <strong>Website:</strong><br>
+            <a href="http://www.exico.ca" target="_blank">www.exico.ca</a>
+        </address>
+    </form>
+</div>

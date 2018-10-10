@@ -1,3 +1,5 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.ViewEngines.ICompositeViewEngine viewEngine
-@await Html.PartialAsync(this.GetViews().Dashboard.SupportDefaultContent)
-@await Html.PartialAsyncIfExists(this, viewEngine, this.GetViews().Dashboard.SupportOptionalContent, null)
+<div @this.PrintViewNameAttr()>
+    @await Html.PartialAsync(this.GetViews().Dashboard.SupportDefaultContent)
+    @await Html.PartialAsyncIfExists(this, viewEngine, this.GetViews().Dashboard.SupportOptionalContent, null)
+</div>

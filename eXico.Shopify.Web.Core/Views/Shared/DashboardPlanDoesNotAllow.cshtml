@@ -1,1 +1,12 @@
-﻿plan doesn't allow
+﻿@inject IDbSettingsReader Settings
+<div @this.PrintViewNameAttr()>
+    <div class="col-lg-12">
+        <div class="alert alert-info">
+            <h3>Consider upgrading your plan</h3>
+            <p>
+                You current plan doesn't allow you to access the feature you requested. Please go to <a asp-controller="@Settings.GetAppMyProfileControllerName()" asp-action="@Exico.Shopify.Web.Core.Controllers.BaseControllers.Interfaces.PROFILE_ACTIONS.Index" title="My Profile">My Profile</a>
+                and upgrade your plan.
+            </p>
+        </div>
+    </div>
+</div>

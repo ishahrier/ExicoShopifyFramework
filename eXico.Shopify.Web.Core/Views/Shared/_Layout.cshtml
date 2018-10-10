@@ -17,9 +17,9 @@
     @RenderSection(ViewNames.STYLE_SECTION, required: false)
 
 </head>
-<body>
-    @await Html.PartialAsync(this.GetViews().NavBar.NavBar)
-    <div class="container body-content">
+<body  >    
+    <div class="container body-content" @this.PrintViewNameAttr()>
+        @await Html.PartialAsync(this.GetViews().NavBar.NavBar)
         <div class="row">
             @await Html.PartialAsync(this.GetViews().WebMsg.DefaultWebMsgLoader)
         </div>

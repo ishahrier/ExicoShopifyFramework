@@ -1,2 +1,4 @@
 ﻿@model string
-<img width="@Model" class="FrameworkLogo" src="@await Html.PartialAsync(this.GetViews().Logo.DefaultBase64Content)" />
+<span @this.PrintViewNameAttr()>
+    <img width="@Model" class="FrameworkLogo" src="@await Html.PartialAsync(this.GetViews().Logo.DefaultBase64Content)" />
+</span>
