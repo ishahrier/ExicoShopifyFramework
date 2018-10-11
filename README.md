@@ -5,7 +5,7 @@
 
 # Exico Shopify Framework
 
-**Exico Shopify Framework** is a *donet* framework for building **Shopify** store apps (https://apps.shopify.com). It has following features built into it  that will escalate your  **Shopify** app development:
+**Exico Shopify Framework** is a framework for building **Shopify** store apps (https://apps.shopify.com). It has the following features built into it that will escalate your **Shopify** app development:
 
 1. Built in process to handle app installation
 2. Recurring change handling
