@@ -22,7 +22,7 @@
 13. Fully customizable built in razor views
 14. A companion console (for quick administrative tasks and more)
 
-**Exico Shopify Framework** uses the latest version of the **AspNet Core** and **EF core**. It is built using the best practices (atleast I think :-)) and has a decent unit test coverage. The project is well documented, please find the **doxygen** generated documentation (coming soon).Also do not forget to visit the project wiki pages. Start with [Quick Intriduction]( https://github.com/ishahrier/ExicoShopifyFramework/wiki/**Quick-Introduction**)
+**Exico Shopify Framework** uses the latest version of the **AspNet Core** and **EF core**. It is built using the best practices (atleast I think :-)) and has a decent unit test coverage. The project is well documented, please find the **doxygen** generated documentation (coming soon).Also do not forget to visit the project wiki pages. Start with [Quick Introduction]( https://github.com/ishahrier/ExicoShopifyFramework/wiki/**Quick-Introduction**)
 
 This project was a personal project but I am making it open source now. I hope people can get benefitted using this project and contribute to this project and make it better day by day.
 
