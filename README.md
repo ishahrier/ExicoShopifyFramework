@@ -18,7 +18,7 @@
 9. Plan and subscription management (manage pricing, add/remove more plans, plan specific feature enable/disable etc)
 10. Built in 'App Support' page
 11. built in 'My Profile' page
-12. Flexible and Extentable base framework (uses aspnet core built in DI)
+12. Flexible and Extendable base framework (uses aspnet core built in DI)
 13. Fully customizable built in razor views
 14. A companion console (for quick administrative tasks and more)
 
