@@ -42,8 +42,6 @@
         public const string SCRIPT_SECTION = "scripts";
         public const string STYLE_SECTION = "styles";
         public string ErrorPage = "XError";
-        public string BuildNumber { get; set; } = "DefaultBuildNumber";
-        public string VersionInfo { get; set; } = "DefaultVersionInfo";
 
         public DashboardViews Dashboard { get; set; } = new DashboardViews();
         public MetaViews Meta { get; set; } = new MetaViews();
