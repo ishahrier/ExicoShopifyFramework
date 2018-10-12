@@ -1,4 +1,5 @@
-﻿@model ErrorViewModel
+@inject Microsoft.AspNetCore.Mvc.ViewEngines.ICompositeViewEngine viewEngine
+@model ErrorViewModel
 @{
     ViewData["Title"] = "Error";
     Layout = null;
@@ -25,7 +26,7 @@
         <title>Error Occurred</title>
     </head>
     <body marginwidth="0" marginheight="0">
-        <div class="container" @await Html.PartialAsync(this.GetViews().Shopify.ChoosePlanRenderingCss)>
+        <div class="container" @this.PrintViewNameAttr()>
             <div class="row">
                 <h3 style="color:#7d7777">Error Occurred During Request Processing</h3>
                 <hr />
