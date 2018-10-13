@@ -149,10 +149,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         /// If you want to add some values to the view bag without impacting anything else. just override this method.
         /// And add stuffs to view data to viewbag to viewata.
         /// </summary>
-        protected virtual void AddOverrideViewsData()
-        {
-            
-        }
+        protected virtual void AddOverrideViewsData() {}
 
         /// <summary>
         /// Override this if you need to do something on OnResultExecuted()
