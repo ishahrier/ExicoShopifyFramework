@@ -20,7 +20,6 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
     /// </summary>
     public abstract class ABaseController : Controller, IABaseController
     {
-
         protected readonly IDbSettingsReader Settings;
         protected readonly IConfiguration Config;
         protected readonly ControllerNames Controllers;
@@ -58,8 +57,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         /// <summary>
         /// Framework buildnumber
         /// </summary>
-        protected Versions VersionInfo { get;  }
-        
+        protected Versions VersionInfo { get;  }        
 
         /// <summary>
         /// Indicates if the app uses shopify embeded sdk
@@ -154,29 +152,26 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         /// <summary>
         /// Override this if you need to do something on OnResultExecuted()
         /// </summary>
-        /// <param name="contex">The <seealso cref="ResultExecutedContext"/> contex.</param>
-        
+        /// <param name="contex">The <seealso cref="ResultExecutedContext"/> contex.</param>        
         public virtual void MyOnResultExecuted(ResultExecutedContext contex) { }
+
         /// <summary>
         /// Override this if you need to do something on OnResultExecuting()
         /// </summary>
-        /// <param name="contex">The <seealso cref="ResultExecutingContext"/> contex.</param>
-        
+        /// <param name="contex">The <seealso cref="ResultExecutingContext"/> contex.</param>        
         public virtual void MyOnResultExecuting(ResultExecutingContext contex) { }
+
         /// <summary>
         /// Override this if you need to do something on OnActionExecuting()
         /// </summary>
-        /// <param name="contex">The <seealso cref="ActionExecutingContext"/> contex.</param>
-        
+        /// <param name="contex">The <seealso cref="ActionExecutingContext"/> contex.</param>        
         public virtual void MyOnActionExecuting(ActionExecutingContext context) { }
 
         /// <summary>
         /// Override this if you need to do something on OnActionExecuted()
         /// </summary>
         /// <param name="contex">The <seealso cref="ResultExecutingContext"/> contex.</param>
-        public virtual void MyOnActionExecuted(ActionExecutedContext context) { }
-
-        
+        public virtual void MyOnActionExecuted(ActionExecutedContext context) { }        
 
     }
 }
