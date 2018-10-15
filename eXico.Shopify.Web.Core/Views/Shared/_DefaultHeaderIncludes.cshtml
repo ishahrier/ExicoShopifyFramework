@@ -1,4 +1,5 @@
-﻿<environment include="Development">
+﻿@inject Microsoft.AspNetCore.Mvc.ViewEngines.ICompositeViewEngine viewEngine
+<environment include="Development">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </environment>
@@ -8,3 +9,5 @@
           asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </environment>
+<!--If you need to include some custom/additional header elements (scripts/css) for all pages-->
+@await Html.PartialAsyncIfExists(this, viewEngine, this.GetViews().Meta.CustomHeaderIncludes, null)

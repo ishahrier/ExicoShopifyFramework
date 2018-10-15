@@ -1,4 +1,5 @@
-﻿<environment include="Development">
+﻿@inject Microsoft.AspNetCore.Mvc.ViewEngines.ICompositeViewEngine viewEngine
+<environment include="Development">
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -18,3 +19,5 @@
     </script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
 </environment>
+<!--If you want to include custom sctip/css or anything else at the bottom of the body for all pages that render.-->
+@await Html.PartialAsyncIfExists(this, viewEngine, this.GetViews().Meta.CustomAfterBodyIncludes, null)
