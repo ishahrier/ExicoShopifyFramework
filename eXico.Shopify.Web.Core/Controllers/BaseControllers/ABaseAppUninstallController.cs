@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Exico.Shopify.Data.Domain.AppModels;
+﻿using Exico.Shopify.Data.Domain.AppModels;
 using Exico.Shopify.Data.Domain.DBModels;
 using Exico.Shopify.Data.Framework;
 using Exico.Shopify.Web.Core.Controllers.BaseControllers.Interfaces;
 using Exico.Shopify.Web.Core.Helpers;
 using Exico.Shopify.Web.Core.Modules;
-using Exico.Shopify.Web.Core.Plugins.Email;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
 {
@@ -28,7 +25,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         protected readonly IDbService<AspNetUser> UsrDbService;
         protected readonly IUserCaching UserCache;
 
-        public ABaseAppUninstallController(IUserCaching userCache, IShopifyEventsEmailer emailer, IShopifyApi shopify, IDbService<AspNetUser> usrDbService, IConfiguration config, IDbSettingsReader settings,ILogger logger) : base(config, settings,logger)
+        public ABaseAppUninstallController(IUserCaching userCache, IShopifyEventsEmailer emailer, IShopifyApi shopify, IDbService<AspNetUser> usrDbService, IConfiguration config, IDbSettingsReader settings, ILogger logger) : base(config, settings, logger)
         {
             UserCache = userCache;
             Emailer = emailer;
@@ -55,13 +52,13 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
             try
             {
                 isValidRequest = await ShopifyAPI.IsAuthenticWebhook(Request);
-               
+
             }
             catch (Exception ex)
             {
-                this.LogGenericError(ex);
+                LogGenericError(ex);
                 Logger.LogWarning("Exception occurred during checking of the webhook authenticity. Gracefully ignoring and continueing.");
-                
+
             }
 
             if (!isValidRequest)
@@ -80,13 +77,13 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
                 }
                 catch (Exception ex)
                 {
-                    this.LogGenericError(ex);
+                    LogGenericError(ex);
                     Logger.LogWarning("Exception occurred while retrieving user data. Gracefully ingnoring and continuing.");
-                    
+
                 }
                 if (user != null)
                 {
-                    Logger.LogInformation("Found user data. {@user}",user);
+                    Logger.LogInformation("Found user data. {@user}", user);
                     bool removeSuccess = false;
                     Exception removalException = null;
                     try
@@ -96,13 +93,13 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
                     }
                     catch (Exception ex)
                     {
-                        this.LogGenericError(ex);
+                        LogGenericError(ex);
                         Logger.LogInformation("Error occurred during user account removal. Gracefully ignoring and continuing.");
                         removalException = ex;
                     }
 
                     if (!removeSuccess)
-                    {                        
+                    {
                         Logger.LogInformation("Calling CouldNotDeleteUser() event.");
                         await CouldNotDeleteUser(user, removalException ?? new Exception("Reason not known"));
                         Logger.LogInformation("Done handling CouldNotDeleteUser() event.");
@@ -123,36 +120,39 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
                     }
                     catch (Exception ex)
                     {
-                        this.LogGenericError(ex);
+                        LogGenericError(ex);
                         Logger.LogWarning("Error occurred during clearning user cache.Ignoring and continuing.");
                     }
 
                 }
                 try
                 {
+                    Logger.LogInformation("Sending out uninstall event email.");
+                    var emailRet = await SendUninstallEmail(user);
+                    if (emailRet) Logger.LogInformation("Successfully sent out uninstall even email.");
+                    else Logger.LogWarning("Error sending uninstall event email.");
                     Logger.LogInformation("Calling UnInstallCompleted() event.");
-                    await this.UnInstallCompleted(user);
+                    await UnInstallCompleted(user);
                     Logger.LogInformation("Done handling UnInstallCompleted() event.");
 
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     Logger.LogError(ex, "Unhandled exection occurred during app uninstall web hook processing.");
                 }
                 Logger.LogInformation("Returning 200 OK to satisfy shopify.");
                 return Ok(); //shopify wants 200 OK msg
             }
         }
-        
+
         /// <summary>
         /// Called when uninstall is completed.
         /// NOTE: completed doesn't mean that on app side we were able to do the uninstallation with success.
         /// </summary>
         /// <param name="user">User who uninstalled.<see cref="AppUser"/></param>
         /// <returns></returns>
-        public virtual async Task UnInstallCompleted(AppUser user)
-        {
-            await Emailer.UserUnInstalledAppAsync(user);
-        }
+        public virtual async Task UnInstallCompleted(AppUser user) { }
+
 
         /// <summary>
         /// Called when user is deleted as a part of the uninstallation process.
@@ -171,5 +171,16 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         /// <returns></returns>
         [NonAction]
         public virtual async Task CouldNotDeleteUser(AppUser user, Exception ex) { }
+
+        /// <summary>
+        /// This is called right after <seealso cref="UnInstallCompleted(AppUser)"/>.
+        /// This method sends out email that a user/store just uninstalled our app.
+        /// </summary>
+        /// <param name="user">User who uninstalled.<see cref="AppUser"/></param>
+        /// <returns></returns>
+        public virtual async Task<bool> SendUninstallEmail(AppUser user)
+        {
+            return await Emailer.UserUnInstalledAppAsync(user);
+        }
     }
 }
