@@ -106,6 +106,7 @@ namespace Exico.Shopify.Web.Core.Extensions
                         Log.Information("Starting X-Console...");
                         //Task.Run<object>(async()=> await ( new XConsole(builder.Build()).Start()));
                         isConsole = true;
+                        Console.Title = "X-Console  -  Exico Shopify Framework";
                         new XConsole(builder.Build()).Start();
                     }
                     else

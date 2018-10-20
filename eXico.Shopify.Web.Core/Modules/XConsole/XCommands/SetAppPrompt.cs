@@ -30,6 +30,7 @@ namespace Exico.Shopify.Web.Core.Modules.XConsole
 
                     if (name != null)
                     {
+                        Console.Title = $"X-Console  -  {name.Value}";
                         xc.SetPromptString($"{name.Value}:>> ");
                     }
                     else
