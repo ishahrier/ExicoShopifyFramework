@@ -98,8 +98,12 @@ namespace Exico.Shopify.Web.Core.Modules
             reader.GetValue(CORE_SYSTEM_SETTING_NAMES.MY_PROFILE_CONTOLLER);
 
 
-        public static string IsUsingEmbededSdk(this IDbSettingsReader reader) =>
-            reader.GetValue(CORE_SYSTEM_SETTING_NAMES.USES_EMBEDED_SDK);
+        public static bool IsUsingEmbededSdk(this IDbSettingsReader reader)
+        {
+            var value = reader.GetValue(CORE_SYSTEM_SETTING_NAMES.USES_EMBEDED_SDK);
+            if (string.IsNullOrEmpty(value)) return false;
+            else return value.Equals("1");
+        }
 
 
         public static string GetAppUninstallControllerName(this IDbSettingsReader reader) =>
