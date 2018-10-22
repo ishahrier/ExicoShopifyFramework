@@ -52,7 +52,7 @@ namespace Exico.Shopify.Web.Core
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            //using our framework                                
+            //Using Exico Shopify Framework                                 
             app.UseExicoShopifyFramework(env);
         }
     }
