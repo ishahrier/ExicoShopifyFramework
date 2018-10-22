@@ -62,7 +62,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         /// <summary>
         /// Indicates if the app uses shopify embeded sdk
         /// </summary>
-        protected bool UsesEmbebedSdk => Settings.IsUsingEmbededSdk().Equals("1");
+        protected bool UsesEmbebedSdk => Settings.IsUsingEmbededSdk();
 
         /// <summary>
         /// The application name

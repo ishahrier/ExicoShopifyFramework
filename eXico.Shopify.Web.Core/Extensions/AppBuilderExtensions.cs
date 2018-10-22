@@ -38,6 +38,7 @@ namespace Exico.Shopify.Web.Core.Extensions
         /// Uses necessary components (app.UseSession(),app.UseAuthentication() etc)
         /// as well as starts DB migrations, inserts initial system settings, plan data and admin user in the database tables.
         /// </summary>
+        /// <remarks>Call this method after calling <code>app.UseMvc(...)</code>.</remarks>
         /// <param name="app"></param>
         public static void UseExicoShopifyFramework(this IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -64,11 +65,27 @@ namespace Exico.Shopify.Web.Core.Extensions
                     SeedData(exicoDbContext, identityContext, logger, config, scope);
                     logger.LogInformation("Finished seeding data.");
 
+                    logger.LogInformation("Setting up cookie policy.");
+                    var isEmbeded = (scope.ServiceProvider.GetService<IDbSettingsReader>()).IsUsingEmbededSdk();
+                    logger.LogInformation($"Embeded app sdk usage is set to '{isEmbeded}'.");
+                    if (!isEmbeded) app.UseCookiePolicy();
+                    else
+                    {
+                        app.UseCookiePolicy(new CookiePolicyOptions()
+                        {
+                            MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None
+                        });
+
+                        logger.LogInformation("Same site policy is set to 'SameSiteMode.None'.");
+                    }
+                    logger.LogInformation("Cookie policy setup is done.");
                 }
                 catch (Exception ex)
                 {
                     logger.LogError(ex.Message);
                 }
+
+
             }
             app.UseMiddleware<LoggingScopeMiddleware>();
         }

@@ -45,15 +45,15 @@ namespace Exico.Shopify.Web.Core
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseExicoShopifyFramework(env);   //using our framework                               
+            app.UseStaticFiles();               
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseCookiePolicy();//must be after UseMvc() other wise temdata doesnt work
+            //using our framework                               
+            app.UseExicoShopifyFramework(env);
         }
     }
 }
