@@ -55,6 +55,7 @@ namespace Demo
             app.UseCookiePolicy();
 
             app.UseExicoShopifyFramework(env);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
