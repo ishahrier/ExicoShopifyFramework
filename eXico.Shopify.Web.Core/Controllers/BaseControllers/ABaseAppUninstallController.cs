@@ -151,6 +151,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         /// </summary>
         /// <param name="user">User who uninstalled.<see cref="AppUser"/></param>
         /// <returns></returns>
+         [NonAction]
         public virtual async Task UnInstallCompleted(AppUser user) { }
 
 
@@ -178,6 +179,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         /// </summary>
         /// <param name="user">User who uninstalled.<see cref="AppUser"/></param>
         /// <returns></returns>
+         [NonAction]
         public virtual async Task<bool> SendUninstallEmail(AppUser user)
         {
             return await Emailer.UserUnInstalledAppAsync(user);

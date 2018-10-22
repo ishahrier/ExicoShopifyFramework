@@ -88,13 +88,14 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         /// Helper method for logging action.result executing steps.
         /// </summary>
         /// <param name="msgPrefix">The message prefix.</param>
+        [NonAction]
         private void LogExecution(string msgPrefix)
         {
             var action = ControllerContext.ActionDescriptor.ActionName;
             var controller = ControllerContext.ActionDescriptor.ControllerName;
             Logger.LogInformation($"{msgPrefix} - Action: {controller}/{action}");
-        }                
-        
+        }
+        [NonAction]
         public void OnResultExecuted(ResultExecutedContext context)
         {
             Logger.LogInformation("Calling MyOnResultExecuted() event.");
@@ -104,6 +105,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
             vr = vr == null ? "null" : vr + ".cshtml";
             LogExecution($"Result Executed - View : '{vr}'");
         }
+        [NonAction]
         public void OnResultExecuting(ResultExecutingContext context)
         {
             var vr = (context.Result as ViewResult)?.ViewName;
@@ -113,7 +115,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
             MyOnResultExecuting(context);
             Logger.LogInformation("Handled MyOnResultExecuting() event.");
         }
-
+        [NonAction]
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             LogExecution("Action Executing");
@@ -123,6 +125,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
 
         }
 
+        [NonAction]
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             ViewBag.UsesEmbededSdk = UsesEmbebedSdk;
@@ -147,30 +150,35 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
         /// If you want to add some values to the view bag without impacting anything else. just override this method.
         /// And add stuffs to view data to viewbag to viewata.
         /// </summary>
+        [NonAction]
         protected virtual void AddOverrideViewsData() {}
 
         /// <summary>
         /// Override this if you need to do something on OnResultExecuted()
         /// </summary>
         /// <param name="contex">The <seealso cref="ResultExecutedContext"/> contex.</param>        
+        [NonAction]
         public virtual void MyOnResultExecuted(ResultExecutedContext contex) { }
 
         /// <summary>
         /// Override this if you need to do something on OnResultExecuting()
         /// </summary>
         /// <param name="contex">The <seealso cref="ResultExecutingContext"/> contex.</param>        
+        [NonAction]
         public virtual void MyOnResultExecuting(ResultExecutingContext contex) { }
 
         /// <summary>
         /// Override this if you need to do something on OnActionExecuting()
         /// </summary>
         /// <param name="contex">The <seealso cref="ActionExecutingContext"/> contex.</param>        
+        [NonAction]
         public virtual void MyOnActionExecuting(ActionExecutingContext context) { }
 
         /// <summary>
         /// Override this if you need to do something on OnActionExecuted()
         /// </summary>
         /// <param name="contex">The <seealso cref="ResultExecutingContext"/> contex.</param>
+        [NonAction]
         public virtual void MyOnActionExecuted(ActionExecutedContext context) { }        
 
     }
