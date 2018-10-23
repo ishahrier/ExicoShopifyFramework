@@ -40,9 +40,6 @@ namespace Exico.Shopify.Web.Core
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
-            //Using Exico Shopify Framework                                 
-            app.UseExicoShopifyFramework(env);
 
             app.UseMvc(routes =>
             {
@@ -50,8 +47,9 @@ namespace Exico.Shopify.Web.Core
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            
-            
+            //Using Exico Shopify Framework                                 
+            app.UseExicoShopifyFramework(env);
+
         }
     }
 }
