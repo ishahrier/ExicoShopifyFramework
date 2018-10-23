@@ -22,8 +22,7 @@ namespace Exico.Shopify.Web.Core.Modules
         WELCOME_EMAIL_TEMPLATE,
         SHOPIFY_EVENT_EMAIL_SUBSCRIBERS,
         SHOPIFY_EMAILS_FROM_ADDRESS,
-        PRIVILEGED_IPS,
-        USES_EMBEDED_SDK,
+        PRIVILEGED_IPS,        
         APP_SUPPORT_EMAIL_ADDRESS,
         APP_VERSION,
         SEEDER_FRAMEWORK_VERSION,/*framework version that seeded this database*/
@@ -96,15 +95,6 @@ namespace Exico.Shopify.Web.Core.Modules
 
         public static string GetAppMyProfileControllerName(this IDbSettingsReader reader) =>
             reader.GetValue(CORE_SYSTEM_SETTING_NAMES.MY_PROFILE_CONTOLLER);
-
-
-        public static bool IsUsingEmbededSdk(this IDbSettingsReader reader)
-        {
-            var value = reader.GetValue(CORE_SYSTEM_SETTING_NAMES.USES_EMBEDED_SDK);
-            if (string.IsNullOrEmpty(value)) return false;
-            else return value.Equals("1");
-        }
-
 
         public static string GetAppUninstallControllerName(this IDbSettingsReader reader) =>
             reader.GetValue(CORE_SYSTEM_SETTING_NAMES.UNINSTALL_CONTROLLER);
