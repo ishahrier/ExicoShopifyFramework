@@ -10,6 +10,7 @@ using Exico.Shopify.Web.Core.Plugins.Email;
 using Exico.Shopify.Web.Core.Plugins.WebMsg;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -65,29 +66,15 @@ namespace Exico.Shopify.Web.Core.Extensions
                     SeedData(exicoDbContext, identityContext, logger, config, scope);
                     logger.LogInformation("Finished seeding data.");
 
-                    logger.LogInformation("Setting up cookie policy.");
-                    var isEmbeded = (scope.ServiceProvider.GetService<IDbSettingsReader>()).IsUsingEmbededSdk();
-                    logger.LogInformation($"Embeded app sdk usage is set to '{isEmbeded}'.");
-                    if (!isEmbeded) app.UseCookiePolicy();
-                    else
-                    {
-                        app.UseCookiePolicy(new CookiePolicyOptions()
-                        {
-                            MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None
-                        });
-
-                        logger.LogInformation("Same site policy is set to 'SameSiteMode.None'.");
-                    }
-                    logger.LogInformation("Cookie policy setup is done.");
                 }
                 catch (Exception ex)
                 {
                     logger.LogError(ex.Message);
                 }
-
-
             }
+            app.UseCookiePolicy();
             app.UseMiddleware<LoggingScopeMiddleware>();
+
         }
 
 
@@ -422,7 +409,7 @@ namespace Exico.Shopify.Web.Core.Extensions
         public static void AddExicoShopifyRequiredServices(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddMemoryCache();
-            services.AddSession();//needed for WebMsg
+            services.AddSession();
 
             #region DB context
             services.AddDbContext<ExicoIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(DB_CON_STRING_NAME)));
@@ -480,6 +467,29 @@ namespace Exico.Shopify.Web.Core.Extensions
             services.AddTransient<IEmailer, SendGridEmailer>();
             services.AddTransient<IShopifyEventsEmailer, ShopifyEventsEmailer>();
             #endregion
+
+            var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
+            using(var scope = scopeFactory.CreateScope())
+            {
+                var provider = scope.ServiceProvider;
+                var logger = provider.GetRequiredService<ILogger>();
+                logger.LogInformation("Setting up cookie policy.");
+                var isEmbeded = (scope.ServiceProvider.GetService<IDbSettingsReader>()).IsUsingEmbededSdk();
+                logger.LogInformation($"Embeded app sdk usage is set to '{isEmbeded}'.");
+                if (!isEmbeded) ;
+                else
+                {
+                    services.ConfigureApplicationCookie(options =>
+                    {
+                        options.Cookie.SameSite = SameSiteMode.None;  
+                    });
+                    logger.LogInformation("Same site policy is set to 'SameSiteMode.None'.");
+                }
+                logger.LogInformation("Cookie policy setup is done.");
+                logger.LogInformation("Setting up anti forgery SuppressXFrameOptionsHeader = true.");
+                services.AddAntiforgery(x => x.SuppressXFrameOptionsHeader = true);
+                logger.LogInformation("Anti forgery setup is done.");
+            }
         }
     }
 
