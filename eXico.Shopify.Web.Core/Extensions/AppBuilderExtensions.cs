@@ -28,12 +28,6 @@ namespace Exico.Shopify.Web.Core.Extensions
     /// </summary>
     public static class AppBuilderExtensions
     {
-        /// <summary>
-        /// The connection string name expected in the appsettings.json file.
-        /// </summary>
-        public const string DB_CON_STRING_NAME = "DefaultConnection";
-        public const string DB_DROP_RECREATE_IN_DEV = "DbDropRecreateInDev";
-        public const string IDENTITY_CORE_AUTH_COOKIE_NAME = ".aspnetcore.exicoauthcookie";
 
         /// <summary>
         /// Uses necessary components (app.UseSession(),app.UseAuthentication() etc)
@@ -55,7 +49,7 @@ namespace Exico.Shopify.Web.Core.Extensions
                 {
                     var identityContext = scope.ServiceProvider.GetService<ExicoIdentityDbContext>();
                     var exicoDbContext = scope.ServiceProvider.GetService<ExicoShopifyDbContext>();
-                    if (env.IsDevelopment() && config[DB_DROP_RECREATE_IN_DEV] == "1")
+                    if (env.IsDevelopment() && config[AppSettingsAccessor.DB_DROP_RECREATE_IN_DEV] == "1")
                     {
                         identityContext.Database.EnsureDeleted();
                         exicoDbContext.Database.EnsureDeleted();
@@ -71,8 +65,7 @@ namespace Exico.Shopify.Web.Core.Extensions
                 {
                     logger.LogError(ex.Message);
                 }
-            }
-            app.UseCookiePolicy();
+            }            
             app.UseMiddleware<LoggingScopeMiddleware>();
 
         }
@@ -229,15 +222,7 @@ namespace Exico.Shopify.Web.Core.Extensions
                     SettingName = CORE_SYSTEM_SETTING_NAMES.SHOPIFY_EVENT_EMAIL_SUBSCRIBERS.ToString(),
                     Value = settSeed.SHOPIFY_EVENT_EMAIL_SUBSCRIBERS ?? ""
                 });
-                exicoDbContext.SystemSettings.Add(new SystemSetting()
-                {
-                    DefaultValue = "0",
-                    Description = "0 means it doesn't use shopify embeded SDK, otherwise 1.",
-                    DisplayName = "Is Embeded",
-                    GroupName = "CORE",
-                    SettingName = CORE_SYSTEM_SETTING_NAMES.USES_EMBEDED_SDK.ToString(),
-                    Value = settSeed.USES_EMBEDED_SDK ?? "0"
-                });
+
                 exicoDbContext.SystemSettings.Add(new SystemSetting()
                 {
                     DefaultValue = "1.0.0",
@@ -409,7 +394,7 @@ namespace Exico.Shopify.Web.Core.Extensions
         public static void AddExicoShopifyRequiredServices(this IServiceCollection services, IConfiguration Configuration)
         {
             #region DB context
-            services.AddDbContext<ExicoIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(DB_CON_STRING_NAME)));
+            services.AddDbContext<ExicoIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(AppSettingsAccessor.DB_CON_STRING_NAME)));
             services.AddIdentity<AspNetUser, IdentityRole>(options =>
                 {
                     options.Password.RequireNonAlphanumeric = false;
@@ -420,9 +405,9 @@ namespace Exico.Shopify.Web.Core.Extensions
                 .AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(options =>
             {
-                options.Cookie.Name = IDENTITY_CORE_AUTH_COOKIE_NAME;
+                options.Cookie.Name = AppSettingsAccessor.IDENTITY_CORE_AUTH_COOKIE_NAME;
             });
-            services.AddDbContext<ExicoShopifyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(DB_CON_STRING_NAME)));
+            services.AddDbContext<ExicoShopifyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(AppSettingsAccessor.DB_CON_STRING_NAME)));
             #endregion
 
             #region Db services
@@ -472,7 +457,7 @@ namespace Exico.Shopify.Web.Core.Extensions
             {                
                 var logger = scope.ServiceProvider.GetService<ILogger<Startup>>();
                 logger.LogInformation("Setting up cookie policy.");
-                var isEmbeded = (scope.ServiceProvider.GetService<IDbSettingsReader>()).IsUsingEmbededSdk();
+                var isEmbeded = AppSettingsAccessor.IsUsingEmbededSdk(Configuration);
                 logger.LogInformation($"Embeded app sdk usage is set to '{isEmbeded}'.");
                 if (isEmbeded)                 
                 {
@@ -481,11 +466,12 @@ namespace Exico.Shopify.Web.Core.Extensions
                         options.Cookie.SameSite = SameSiteMode.None;  
                     });                    
                     logger.LogInformation("Same site policy is set to 'SameSiteMode.None'.");
+                    logger.LogInformation("Cookie policy setup is done.");
+                    logger.LogInformation("Setting up anti forgery SuppressXFrameOptionsHeader = true.");
+                    services.AddAntiforgery(x => x.SuppressXFrameOptionsHeader = true);
+                    logger.LogInformation("Anti forgery setup is done.");
                 }
-                logger.LogInformation("Cookie policy setup is done.");
-                logger.LogInformation("Setting up anti forgery SuppressXFrameOptionsHeader = true.");
-                services.AddAntiforgery(x => x.SuppressXFrameOptionsHeader = true);
-                logger.LogInformation("Anti forgery setup is done.");
+
             }
             
         }
