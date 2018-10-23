@@ -470,14 +470,12 @@ namespace Exico.Shopify.Web.Core.Extensions
 
             var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
             using(var scope = scopeFactory.CreateScope())
-            {
-                var provider = scope.ServiceProvider;
-                var logger = provider.GetRequiredService<ILogger>();
+            {                
+                var logger = scope.ServiceProvider.GetService<ILogger>();
                 logger.LogInformation("Setting up cookie policy.");
                 var isEmbeded = (scope.ServiceProvider.GetService<IDbSettingsReader>()).IsUsingEmbededSdk();
                 logger.LogInformation($"Embeded app sdk usage is set to '{isEmbeded}'.");
-                if (!isEmbeded) ;
-                else
+                if (isEmbeded)                 
                 {
                     services.ConfigureApplicationCookie(options =>
                     {
