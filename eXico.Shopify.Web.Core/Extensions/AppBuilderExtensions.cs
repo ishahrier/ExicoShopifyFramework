@@ -30,6 +30,101 @@ namespace Exico.Shopify.Web.Core.Extensions
     {
 
         /// <summary>
+        /// Adds all aspnet core services (AddMemoryCache(),AddSession() etc) required for the framework
+        /// as well as registers all ExioSopifyFramework services.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="Configuration"></param>
+        public static void AddExicoShopifyRequiredServices(this IServiceCollection services, IConfiguration Configuration)
+        {
+            #region DB context
+            services.AddDbContext<ExicoIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(AppSettingsAccessor.DB_CON_STRING_NAME)));
+            services.AddIdentity<AspNetUser, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+            })
+                .AddEntityFrameworkStores<ExicoIdentityDbContext>()
+                .AddDefaultTokenProviders();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = AppSettingsAccessor.IDENTITY_CORE_AUTH_COOKIE_NAME;
+            });
+            services.AddDbContext<ExicoShopifyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(AppSettingsAccessor.DB_CON_STRING_NAME)));
+            #endregion
+
+            #region Db services
+            services.AddTransient<ExicoShopifyDbUnitOfWork, ExicoShopifyDbUnitOfWork>();
+
+            services.AddTransient<ExicoShopifyDbRepository<Plan>, ExicoShopifyDbRepository<Plan>>();
+            services.AddTransient<IDbService<Plan>, ExicoShopifyDbService<Plan>>();
+
+            services.AddTransient<ExicoShopifyDbRepository<AspNetUser>, ExicoShopifyDbRepository<AspNetUser>>();
+            services.AddTransient<IDbService<AspNetUser>, ExicoShopifyDbService<AspNetUser>>();
+
+            services.AddTransient<ExicoShopifyDbRepository<SystemSetting>, ExicoShopifyDbRepository<SystemSetting>>();
+            services.AddTransient<IDbService<SystemSetting>, ExicoShopifyDbService<SystemSetting>>();
+
+            #endregion
+
+            #region Filters
+            services.AddScoped<AdminPasswordVerification>();
+            services.AddScoped<IPAddressVerification>();
+            services.AddScoped<RequiresPlan>();
+            services.AddScoped<RequireSubscription>();
+            #endregion
+
+            #region Scoped services
+            services.AddScoped<IPlansReader, PlansReader>();
+            services.AddScoped<IDbSettingsReader, DbSettingsReader>();
+            services.AddScoped<IUserCaching, UserCaching>();
+            services.AddScoped<IWebMsgConfig, DefaultWebMsgConfig>();
+            #endregion
+
+            #region Scoped Services
+            services.AddScoped<IGenerateUserPassword, DefaultPasswordGenerator>();
+            services.AddScoped<IShopifyApi, ShopifyApi>();
+            services.AddScoped<IWebMessenger, DefaultWebMessenger>();
+            services.AddScoped<IAppSettingsAccessor, AppSettingsAccessor>();
+            #endregion
+
+            #region Transient Services
+            services.AddTransient<IEmailer, SendGridEmailer>();
+            services.AddTransient<IShopifyEventsEmailer, ShopifyEventsEmailer>();
+            #endregion
+
+            services.AddMemoryCache();
+            var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var logger = scope.ServiceProvider.GetService<ILogger<Startup>>();
+                logger.LogInformation("Setting up cookie policy.");
+                var isEmbeded = AppSettingsAccessor.IsUsingEmbededSdk(Configuration);
+                logger.LogInformation($"Embeded app sdk usage is set to '{isEmbeded}'.");
+                if (isEmbeded)
+                {
+                    logger.LogInformation("Setting up cookie provider for temp data.");
+                    var mvcBuilder = scope.ServiceProvider.GetService<IMvcBuilder>();
+                    mvcBuilder.AddCookieTempDataProvider(x => x.Cookie.SameSite = SameSiteMode.None);
+                    logger.LogInformation("Done setting up temp data cookie provider.");
+                    logger.LogInformation("Setting up site cookie policy to 'SameSiteMode.None'.");
+                    services.ConfigureApplicationCookie(options =>
+                    {
+                        options.Cookie.SameSite = SameSiteMode.None;
+                    });
+
+                    logger.LogInformation("Done setting up sookie policy.");
+                    logger.LogInformation("Setting up anti forgery SuppressXFrameOptionsHeader = true.");
+                    services.AddAntiforgery(x => x.SuppressXFrameOptionsHeader = true);
+                    logger.LogInformation("Done setting up anti forgery.");
+                }
+
+            }
+
+        }
+
+        /// <summary>
         /// Uses necessary components (app.UseSession(),app.UseAuthentication() etc)
         /// as well as starts DB migrations, inserts initial system settings, plan data and admin user in the database tables.
         /// </summary>
@@ -38,7 +133,7 @@ namespace Exico.Shopify.Web.Core.Extensions
         public static void UseExicoShopifyFramework(this IApplicationBuilder app, IHostingEnvironment env)
         {
 
-            app.UseSession();//needed for webmsg
+            //app.UseSession();//needed for webmsg
             app.UseAuthentication();
             var scopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
             using (var scope = scopeFactory.CreateScope())
@@ -70,7 +165,7 @@ namespace Exico.Shopify.Web.Core.Extensions
 
         }
 
-
+        #region seed data 
         private static void SeedSettingsData(ExicoShopifyDbContext exicoDbContext, IConfiguration config, ILogger logger)
         {
             if (!exicoDbContext.SystemSettings.Any())
@@ -383,98 +478,8 @@ namespace Exico.Shopify.Web.Core.Extensions
 
             SeedAdminRoleAndUser(identityContext, exicoDbContext, logger, config, scope);
         }
+        #endregion
 
-
-        /// <summary>
-        /// Adds all aspnet core services (AddMemoryCache(),AddSession() etc) required for the framework
-        /// as well as registers all ExioSopifyFramework services.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="Configuration"></param>
-        public static void AddExicoShopifyRequiredServices(this IServiceCollection services, IConfiguration Configuration)
-        {
-            #region DB context
-            services.AddDbContext<ExicoIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(AppSettingsAccessor.DB_CON_STRING_NAME)));
-            services.AddIdentity<AspNetUser, IdentityRole>(options =>
-                {
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireUppercase = false;
-                })
-                .AddEntityFrameworkStores<ExicoIdentityDbContext>()
-                .AddDefaultTokenProviders();
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.Name = AppSettingsAccessor.IDENTITY_CORE_AUTH_COOKIE_NAME;
-            });
-            services.AddDbContext<ExicoShopifyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(AppSettingsAccessor.DB_CON_STRING_NAME)));
-            #endregion
-
-            #region Db services
-            services.AddTransient<ExicoShopifyDbUnitOfWork, ExicoShopifyDbUnitOfWork>();
-
-            services.AddTransient<ExicoShopifyDbRepository<Plan>, ExicoShopifyDbRepository<Plan>>();
-            services.AddTransient<IDbService<Plan>, ExicoShopifyDbService<Plan>>();
-
-            services.AddTransient<ExicoShopifyDbRepository<AspNetUser>, ExicoShopifyDbRepository<AspNetUser>>();
-            services.AddTransient<IDbService<AspNetUser>, ExicoShopifyDbService<AspNetUser>>();
-
-            services.AddTransient<ExicoShopifyDbRepository<SystemSetting>, ExicoShopifyDbRepository<SystemSetting>>();
-            services.AddTransient<IDbService<SystemSetting>, ExicoShopifyDbService<SystemSetting>>();
-
-            #endregion
-
-            #region Filters
-            services.AddScoped<AdminPasswordVerification>();
-            services.AddScoped<IPAddressVerification>();
-            services.AddScoped<RequiresPlan>();
-            services.AddScoped<RequireSubscription>();
-            #endregion
-
-            #region Scoped services
-            services.AddScoped<IPlansReader, PlansReader>();
-            services.AddScoped<IDbSettingsReader, DbSettingsReader>();
-            services.AddScoped<IUserCaching, UserCaching>();
-            services.AddScoped<IWebMsgConfig, DefaultWebMsgConfig>();
-            #endregion
-
-            #region Scoped Services
-            services.AddScoped<IGenerateUserPassword, DefaultPasswordGenerator>();
-            services.AddScoped<IShopifyApi, ShopifyApi>();
-            services.AddScoped<IWebMessenger, DefaultWebMessenger>();
-            services.AddScoped<IAppSettingsAccessor, AppSettingsAccessor>();
-            #endregion
-
-            #region Transient Services
-            services.AddTransient<IEmailer, SendGridEmailer>();
-            services.AddTransient<IShopifyEventsEmailer, ShopifyEventsEmailer>();
-            #endregion
-
-            services.AddMemoryCache();
-            services.AddSession();
-            var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
-            using(var scope = scopeFactory.CreateScope())
-            {                
-                var logger = scope.ServiceProvider.GetService<ILogger<Startup>>();
-                logger.LogInformation("Setting up cookie policy.");
-                var isEmbeded = AppSettingsAccessor.IsUsingEmbededSdk(Configuration);
-                logger.LogInformation($"Embeded app sdk usage is set to '{isEmbeded}'.");
-                if (isEmbeded)                 
-                {
-                    services.ConfigureApplicationCookie(options =>
-                    {
-                        options.Cookie.SameSite = SameSiteMode.None;  
-                    });                    
-                    logger.LogInformation("Same site policy is set to 'SameSiteMode.None'.");
-                    logger.LogInformation("Cookie policy setup is done.");
-                    logger.LogInformation("Setting up anti forgery SuppressXFrameOptionsHeader = true.");
-                    services.AddAntiforgery(x => x.SuppressXFrameOptionsHeader = true);
-                    logger.LogInformation("Anti forgery setup is done.");
-                }
-
-            }
-            
-        }
     }
 
     //we need this cause IdentityDbContext<AspNetUser> doesnt work in IOC
