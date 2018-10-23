@@ -18,10 +18,9 @@ namespace Exico.Shopify.Web.Core
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {            
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
             services.AddExicoShopifyRequiredServices(Configuration);  //adding services for our framework          
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);            
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
