@@ -451,7 +451,7 @@ namespace Exico.Shopify.Web.Core.Extensions
             #endregion
 
             services.AddMemoryCache();
-            services.AddSession();
+            services.AddSession(x=>x.Cookie.SameSite = SameSiteMode.None);
             var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
             using(var scope = scopeFactory.CreateScope())
             {                
