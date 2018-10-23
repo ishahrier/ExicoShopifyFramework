@@ -408,9 +408,6 @@ namespace Exico.Shopify.Web.Core.Extensions
         /// <param name="Configuration"></param>
         public static void AddExicoShopifyRequiredServices(this IServiceCollection services, IConfiguration Configuration)
         {
-            services.AddMemoryCache();
-            services.AddSession();
-
             #region DB context
             services.AddDbContext<ExicoIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(DB_CON_STRING_NAME)));
             services.AddIdentity<AspNetUser, IdentityRole>(options =>
@@ -468,6 +465,8 @@ namespace Exico.Shopify.Web.Core.Extensions
             services.AddTransient<IShopifyEventsEmailer, ShopifyEventsEmailer>();
             #endregion
 
+            services.AddMemoryCache();
+            services.AddSession();
             var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
             using(var scope = scopeFactory.CreateScope())
             {                
@@ -480,7 +479,7 @@ namespace Exico.Shopify.Web.Core.Extensions
                     services.ConfigureApplicationCookie(options =>
                     {
                         options.Cookie.SameSite = SameSiteMode.None;  
-                    });
+                    });                    
                     logger.LogInformation("Same site policy is set to 'SameSiteMode.None'.");
                 }
                 logger.LogInformation("Cookie policy setup is done.");
@@ -488,6 +487,7 @@ namespace Exico.Shopify.Web.Core.Extensions
                 services.AddAntiforgery(x => x.SuppressXFrameOptionsHeader = true);
                 logger.LogInformation("Anti forgery setup is done.");
             }
+            
         }
     }
 
