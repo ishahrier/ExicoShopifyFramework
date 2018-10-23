@@ -19,12 +19,6 @@ namespace Exico.Shopify.Web.Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-              {
-                  options.CheckConsentNeeded = context => true;
-                  options.MinimumSameSitePolicy = SameSiteMode.None;
-              });
-
             services.AddExicoShopifyRequiredServices(Configuration);  //adding services for our framework          
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);            
 
