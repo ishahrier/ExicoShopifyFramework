@@ -35,7 +35,7 @@ namespace Exico.Shopify.Web.Core.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="Configuration"></param>
-        public static void AddExicoShopifyRequiredServices(this IServiceCollection services, IConfiguration Configuration)
+        public static void AddExicoShopifyRequiredServices(this IServiceCollection services, IConfiguration Configuration, IMvcBuilder mvcBuilder)
         {
             #region DB context
             services.AddDbContext<ExicoIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(AppSettingsAccessor.DB_CON_STRING_NAME)));
@@ -98,14 +98,12 @@ namespace Exico.Shopify.Web.Core.Extensions
             var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
             using (var scope = scopeFactory.CreateScope())
             {
-                var logger = scope.ServiceProvider.GetService<ILogger<Startup>>();
-                logger.LogInformation("Setting up cookie policy.");
+                var logger = scope.ServiceProvider.GetService<ILogger<Startup>>();                
                 var isEmbeded = AppSettingsAccessor.IsUsingEmbededSdk(Configuration);
                 logger.LogInformation($"Embeded app sdk usage is set to '{isEmbeded}'.");
                 if (isEmbeded)
                 {
-                    logger.LogInformation("Setting up cookie provider for temp data.");
-                    var mvcBuilder = scope.ServiceProvider.GetService<IMvcBuilder>();
+                    logger.LogInformation("Setting up cookie provider for temp data.");                    
                     mvcBuilder.AddCookieTempDataProvider(x => x.Cookie.SameSite = SameSiteMode.None);
                     logger.LogInformation("Done setting up temp data cookie provider.");
                     logger.LogInformation("Setting up site cookie policy to 'SameSiteMode.None'.");
