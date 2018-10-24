@@ -35,6 +35,7 @@ namespace Exico.Shopify.Web.Core.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="Configuration"></param>
+        /// <param name="mvcBuilder"></param>
         public static void AddExicoShopifyRequiredServices(this IServiceCollection services, IConfiguration Configuration, IMvcBuilder mvcBuilder)
         {
             #region DB context
@@ -112,7 +113,7 @@ namespace Exico.Shopify.Web.Core.Extensions
                         options.Cookie.SameSite = SameSiteMode.None;
                     });
 
-                    logger.LogInformation("Done setting up sookie policy.");
+                    logger.LogInformation("Done setting up cookie policy.");
                     logger.LogInformation("Setting up anti forgery SuppressXFrameOptionsHeader = true.");
                     services.AddAntiforgery(x => x.SuppressXFrameOptionsHeader = true);
                     logger.LogInformation("Done setting up anti forgery.");
@@ -128,6 +129,7 @@ namespace Exico.Shopify.Web.Core.Extensions
         /// </summary>
         /// <remarks>Call this method after calling <code>app.UseMvc(...)</code>.</remarks>
         /// <param name="app"></param>
+        /// <param name="env"></param>
         public static void UseExicoShopifyFramework(this IApplicationBuilder app, IHostingEnvironment env)
         {
 
