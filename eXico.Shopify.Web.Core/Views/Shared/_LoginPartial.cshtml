@@ -13,7 +13,7 @@
             <li>
                 <a asp-controller="@Settings.GetAppMyProfileControllerName()" asp-action="@Exico.Shopify.Web.Core.Controllers.BaseControllers.Interfaces.PROFILE_ACTIONS.Index" title="My Profile">My Profile</a>
             </li>
-            if (!this.ViewBag.UsesEmbededSdk)
+            @if (!this.ViewBag.UsesEmbededSdk)
             {
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
