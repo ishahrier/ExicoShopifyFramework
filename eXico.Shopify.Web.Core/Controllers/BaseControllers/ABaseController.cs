@@ -42,8 +42,7 @@ namespace Exico.Shopify.Web.Core.Controllers.BaseControllers
             this.VersionInfo = new Versions()
             {
                 AppVersion = settings.GetAppVersion(),
-                FrameworkBuildNumber = Settings.GetFrameWorkBuildNumber(),
-                FrameWorkVersion = settings.GetDataSeederFrameworkVersion(),
+                FrameWorkVersion = AppSettingsAccessor.GetFrameWorkBuildNumber(),                
                 DataSeederFrameworkVersion = Settings.GetDataSeederFrameworkVersion()
             };            
 

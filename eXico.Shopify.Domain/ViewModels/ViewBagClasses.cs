@@ -2,24 +2,24 @@
 {
     public class Versions
     {
-        private string _FrameworkBuildNumber;
+        private string _FrameworkVersion;
 
         public Versions()
         {
-            NugetVersion = FrameworkBuildNumber;
+            NugetVersion = FrameWorkVersion;
         }
 
         public string AppVersion { get; set; }
-        public string FrameWorkVersion { get; set; }
-        public string FrameworkBuildNumber
+        
+        public string FrameWorkVersion
         {
             get
             {
-                return _FrameworkBuildNumber;
+                return _FrameworkVersion;
             }
             set
             {
-                NugetVersion = _FrameworkBuildNumber = value;
+                NugetVersion = _FrameworkVersion = value;
             }
         }
         public string DataSeederFrameworkVersion { get; set; }
