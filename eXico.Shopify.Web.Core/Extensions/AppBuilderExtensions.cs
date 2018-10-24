@@ -329,7 +329,7 @@ namespace Exico.Shopify.Web.Core.Extensions
                 });
                 exicoDbContext.SystemSettings.Add(new SystemSetting()
                 {
-                    DefaultValue = "0.0.0.0",
+                    DefaultValue = "0.0.0",
                     Description = "Version of the Exico Shopify Framework that created this database",
                     DisplayName = "Seeder Framework Version",
                     GroupName = "CORE",
