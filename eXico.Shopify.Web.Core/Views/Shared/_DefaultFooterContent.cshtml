@@ -1,7 +1,9 @@
-﻿<hr />
+﻿@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnv
+<hr />
+
 <div class="col-xs-12" @this.PrintViewNameAttr()>
     <footer>
-        <p class="pull-left">&copy; @DateTime.Now.Year - @this.GetAppNameAndVersion()</p>
+        <p class="pull-left">&copy; @DateTime.Now.Year - @this.GetAppNameAndVersion() - @hostingEnv.EnvironmentName</p>
         <p class="pull-right text-muted">@this.GetFrameWorkVersionAndBuild()</p>
     </footer>
 </div>
