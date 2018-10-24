@@ -29,16 +29,15 @@ namespace Exico.Shopify.Web.Core.Modules.XConsole
                     var versions = new Versions()
                     {
                         AppVersion = settings.GetAppVersion(),
-                        DataSeederFrameworkVersion = settings.GetDataSeederFrameworkVersion(),
-                        FrameworkBuildNumber = settings.GetFrameWorkBuildNumber(true),
-                        FrameWorkVersion = settings.GerFrameWorkVersion()
+                        DataSeederFrameworkVersion = settings.GetDataSeederFrameworkVersion(),                        
+                        FrameWorkVersion = AppSettingsAccessor.GetFrameWorkBuildNumber(true)
                     };
                     xc.WriteSuccess(this, "Done.");
                     var table = xc.CreateTable(new string[] { "Item", "Value" });
                     table.AddRow("Application Version", versions.AppVersion);
                     table.AddRow("Data Seeder Framework Version", versions.DataSeederFrameworkVersion);
                     table.AddRow("Framework Version", versions.FrameWorkVersion);
-                    table.AddRow("Build Number", versions.FrameworkBuildNumber);
+                    
                     var parts = versions.NugetVersion.Split('.');
                     table.AddRow("Nuget Version", parts.Length <= 3 ? versions.NugetVersion : string.Join('.', parts.Take(3)));
                     xc.WriteTable(table);

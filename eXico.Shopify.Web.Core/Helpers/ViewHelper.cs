@@ -18,7 +18,7 @@ namespace Exico.Shopify.Web.Core.Helpers
         public static IHtmlContent GetFrameWorkVersionAndBuild(this IRazorPage rpage)
         {
             var vdata = rpage.ViewContext.ViewBag.VersionInfo as Versions;
-            return new HtmlString($"<b>ver.</b>{vdata.FrameWorkVersion} <b>build.</b>{vdata.FrameworkBuildNumber}");
+            return new HtmlString($"<b>ver.</b>{vdata.FrameWorkVersion}");
         }
         public static string GetAppNameAndVersion(this IRazorPage rpage)
         {

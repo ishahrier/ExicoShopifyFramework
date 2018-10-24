@@ -33,11 +33,12 @@ namespace Exico.Shopify.Web.Core.Modules
     }
     public static class DbSettingsReaderExtensions
     {
-        /// <summary>
-        /// The version number of the framework.This is changed manually by the framework author.
-        /// This is not same as the nuget version nor same as the build number.
-        /// </summary>
-        internal const string FRAMEWORK_VERSION = "1.0.0";
+        ///// <summary>
+        ///// The version number of the framework.This is changed manually by the framework author.
+        ///// This is not same as the nuget version nor same as the build number.
+        ///// </summary>
+        //internal const string FRAMEWORK_VERSION = "1.0.0";
+
         /// <summary>
         /// The core settings group name
         /// </summary>
@@ -105,44 +106,17 @@ namespace Exico.Shopify.Web.Core.Modules
         public static string GetGetSendGridApiKey(this IDbSettingsReader reader) =>
             reader.GetValue(CORE_SYSTEM_SETTING_NAMES.SEND_GRID_API_KEY);
 
-        /// <summary>
-        /// Gives the build number of the framework.
-        /// Which is same as (AzureDevOps) build number as well as the nuget package version.
-        /// Note that the <see cref="FRAMEWORK_VERSION"/> and framework build number are two different things.
-        /// <para>This method can can encounter error, on error it return 0.0.0.0 as build number.</para>
-        /// </summary>                
-        /// <param name="reRead">Force read assembly name again.</param>
-        /// <returns></returns>
-        private static string __data = string.Empty;
-        public static string GetFrameWorkBuildNumber(this IDbSettingsReader reader, bool reRead = false)
-        {
-            if (__data == string.Empty || reRead)
-            {
-                try
-                {
-                    var coreVersion = typeof(Exico.Shopify.Web.Core.Startup).Assembly.GetName().Version.ToString();
-                    __data = coreVersion;
-                }
-                catch (Exception)
-                {
 
-                    __data = "0.0.0.0";
-                }
-            }
-            return __data;
-
-        }
-
-        /// <summary>
-        /// Returns the framework version.This is not same as the framework build number but it is same as the
-        /// value returned by <see cref="GetSeederFrameworkVersion()"/> method. Also nuget version wont match with this one.
-        /// And lastly this is set manually by the framework author.
-        /// </summary>
-        /// <returns>version number in major.minor.patch pattern.</returns>
-        public static string GerFrameWorkVersion(this IDbSettingsReader reader)
-        {
-            return FRAMEWORK_VERSION;
-        }
+        ///// <summary>
+        ///// Returns the framework version.This is not same as the framework build number but it is same as the
+        ///// value returned by <see cref="GetSeederFrameworkVersion()"/> method. Also nuget version wont match with this one.
+        ///// And lastly this is set manually by the framework author.
+        ///// </summary>
+        ///// <returns>version number in major.minor.patch pattern.</returns>
+        //public static string GerFrameWorkVersion(this IDbSettingsReader reader)
+        //{
+        //    return FRAMEWORK_VERSION;
+        //}
 
         /// <summary>
         /// This is the version of the application that is built using this framework.

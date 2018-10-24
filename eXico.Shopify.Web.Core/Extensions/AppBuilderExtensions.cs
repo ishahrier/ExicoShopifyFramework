@@ -329,12 +329,12 @@ namespace Exico.Shopify.Web.Core.Extensions
                 });
                 exicoDbContext.SystemSettings.Add(new SystemSetting()
                 {
-                    DefaultValue = DbSettingsReaderExtensions.FRAMEWORK_VERSION,
+                    DefaultValue = "0.0.0",
                     Description = "Version of the Exico Shopify Framework that created this database",
                     DisplayName = "Seeder Framework Version",
                     GroupName = "CORE",
                     SettingName = CORE_SYSTEM_SETTING_NAMES.SEEDER_FRAMEWORK_VERSION.ToString(),
-                    Value = DbSettingsReaderExtensions.FRAMEWORK_VERSION
+                    Value = AppSettingsAccessor.GetFrameWorkBuildNumber(true) 
                 });
                 exicoDbContext.SystemSettings.Add(new SystemSetting()
                 {
