@@ -5,7 +5,7 @@
 @inject IDbSettingsReader Settings
 
  
-@if (SignInManager.IsSignedIn(User))
+@if (SignInManager.IsSignedIn(User) && !this.ViewBag.UsesEmbededSdk)
 {
     <form asp-area="" asp-controller="@this.GetControllers().AccountController" asp-action="Logoff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right" @this.PrintViewNameAttr()>
