@@ -1,7 +1,6 @@
 ﻿using Exico.Shopify.Web.Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,9 +18,9 @@ namespace Exico.Shopify.Web.Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
-            services.AddExicoShopifyRequiredServices(Configuration);  //adding services for our framework          
+
+            var mvcBuilder = services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            services.AddExicoShopifyRequiredServices(Configuration, mvcBuilder);  //adding services for our framework          
 
         }
 
