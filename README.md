@@ -2,6 +2,10 @@
 [![NuGet](https://img.shields.io/nuget/v/Exico.Shopify.Web.Core.svg)](https://badge.fury.io/nu/Exico.Shopify.Web.Core)
 ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
 
+```
+### News: A new version of the framework is coming soon which uses dotnet core 3.0 also in that new version of the framework you can
+create shopify application using Angular 8.x.x. STAY TUNED! :-)
+```
 
 # Exico Shopify Framework
 
