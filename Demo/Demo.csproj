@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <PackageReference Include="Exico.SHopify.Web.core" Version="1.0.415" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
   </ItemGroup>
 
